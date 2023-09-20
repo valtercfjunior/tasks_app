@@ -23,9 +23,16 @@
 
 <p> 🔍 Estudando sobre Android e Kotlin </p>
 
-## **Tecnologias**
+## ⚙️**Tecnologias**
 
-<p> 
+<p> 🛠 Kotlin
+<p> 🛠 Android
+<p> 🛠 Retrofit
+<p> 🛠 SharedPreferences
+<p> 🛠 API
+<p> 🛠 ROOM
+
+
 
 
 
