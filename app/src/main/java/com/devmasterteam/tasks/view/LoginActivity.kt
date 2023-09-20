@@ -1,10 +1,12 @@
 package com.devmasterteam.tasks.view
 
 import android.content.Intent
+import androidx.biometric.BiometricPrompt
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.devmasterteam.tasks.R
 import com.devmasterteam.tasks.databinding.ActivityLoginBinding
@@ -56,10 +58,32 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel.loggedUser.observe(this) {
             if (it) {
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-                finish()
+                biometricAuthentication()
             }
         }
+    }
+
+    private fun biometricAuthentication() {
+        val executor = ContextCompat.getMainExecutor(this)
+        val bio = BiometricPrompt(
+            this,
+            executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
+            })
+
+        val info = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Autenticação")
+            .setSubtitle("Autenticação")
+            .setDescription("Coloque sua digital")
+            .setNegativeButtonText("Cancelar")
+            .build()
+
+        bio.authenticate(info)
     }
 
     private fun handleLogin() {
